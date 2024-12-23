@@ -1,13 +1,23 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
-function usePokemon(idp) {
- 
-
+function usePokemon(pokemonName) {
+  const { id } = useParams();
   const [pokemon, setPokemon] = useState({});
-  async function downloadPokemon(idp) {
+  async function downloadPokemon(id) {
     const pokemonUrl = `https://pokeapi.co/api/v2/pokemon/`;
-    const response = await axios.get(pokemonUrl + idp);
+    let response = "";
+    try {
+      if (pokemonName) {
+        response = await axios.get(pokemonUrl + pokemonName);
+      } else {
+        response = await axios.get(pokemonUrl + id);
+      }
+    } catch (error) {
+      console.log("No pokemon Found");
+    }
+
     const pokemon = response.data;
 
     setPokemon({
@@ -21,10 +31,10 @@ function usePokemon(idp) {
   }
 
   useEffect(() => {
-    downloadPokemon(idp);
-  }, [idp]);
+    downloadPokemon(id);
+  }, [id, pokemonName]);
 
-  return [pokemon];
+  return [pokemon, setPokemon];
 }
 
 export default usePokemon;

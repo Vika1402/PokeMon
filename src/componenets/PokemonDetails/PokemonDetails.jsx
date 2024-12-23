@@ -3,17 +3,16 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { MdArrowBackIos } from "react-icons/md";
-import { MdOutlineNavigateNext } from "react-icons/md";
 import usePokemon from "../../Hooks/usePokemon";
-function PokemonDetails() {
-  const { id } = useParams();
-  const [idp, setIdp] = useState(Number(id));
-  const [pokemon] = usePokemon(idp);
+
+function PokemonDetails({ pokemonName }) {
+  const [pokemon, setPokemon] = usePokemon(pokemonName);
+
   return (
     pokemon && (
       <div className="flex-col items-center justify-center w-full h-full text-center">
-        <div className="flex items-center justify-center gap-6 md:text-2xl">
-          <button
+        <div className="flex items-center justify-center gap-6 text-2xl">
+          {/* <button
             onClick={() => {
               if (idp == 1) {
                 return;
@@ -22,13 +21,13 @@ function PokemonDetails() {
             }}
           >
             <MdArrowBackIos />
-          </button>
+          </button> */}
           <Link to={"/"} className="p-1 ">
             PokeDex
           </Link>
-          <button onClick={() => setIdp(idp + 1)}>
-            <MdArrowBackIos className="rotate-180" />
-          </button>
+          {/* <button onClick={() => setIdp(idp + 1)}>
+        <MdArrowBackIos className="rotate-180" />
+      </button> */}
         </div>
 
         <h1 className="text-4xl font-bold tracking-[0.90em] text-yellow-700">
@@ -53,7 +52,7 @@ function PokemonDetails() {
                 <p className="text-2xl font-semibold">
                   <span>Type: </span>
                 </p>
-                <button className="text-xl btn-outline btn">
+                <button className="btn-outline btn">
                   {pokemon.types &&
                     pokemon.types.map((t, index) => (
                       <span key={index}>{t.type.name}</span>
