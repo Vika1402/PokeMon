@@ -4,30 +4,11 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { MdArrowBackIos } from "react-icons/md";
 import { MdOutlineNavigateNext } from "react-icons/md";
+import usePokemon from "../../Hooks/usePokemon";
 function PokemonDetails() {
   const { id } = useParams();
   const [idp, setIdp] = useState(Number(id));
-
-  const [pokemon, setPokemon] = useState({});
-  async function downloadPokemon() {
-    const pokemonUrl = `https://pokeapi.co/api/v2/pokemon/`;
-    const response = await axios.get(pokemonUrl + idp);
-    const pokemon = response.data;
-
-    setPokemon({
-      name: pokemon.name,
-      height: pokemon.height,
-      weight: pokemon.weight,
-      types: pokemon.types,
-      image: pokemon.sprites.other.dream_world.front_default,
-    });
-    console.log(pokemon.types.map((t) => t.type.name));
-  }
-
-  useEffect(() => {
-    downloadPokemon();
-  }, [idp]);
-
+  const [pokemon] = usePokemon(idp);
   return (
     pokemon && (
       <div className="flex-col items-center justify-center w-full h-full text-center">
